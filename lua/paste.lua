@@ -1,19 +1,6 @@
 local curl = require("plenary.curl")
 local path = require("plenary.path")
 
--- local J = require "plenary.job"
-
--- local function request(args)
--- 	local job = J:new({
--- 		command = "curl",
--- 		args = args,
--- 		on_exit = function(j, code)
--- 			print(vim.inspect(j:result()))
--- 		end
--- 	})
--- 	job:sync(10000)
--- end
-
 local function get_reg(char)
 	return vim.api.nvim_exec([[echo getreg(']]..char..[[')]], true)
 end
