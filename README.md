@@ -27,7 +27,10 @@ paste exposes these 5 lua functions:
 
 	paste, pastebuf, pastesel, pasteyank, getPaste
 
-pastesel needs to be bind to something or you can't invoke it without leaving visual
+pastesel needs to be bind to something or you can't invoke it without leaving visual:
+```vim
+vnoremap <C-p> <cmd>lua pastesel()<CR>
+```
 
 ## Todo
 - [ ] Get the visual mode 
