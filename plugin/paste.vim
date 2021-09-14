@@ -8,8 +8,8 @@ unlet s:save_cpo
 
 let g:loaded_nvim_paste = 1
 
-command! -nargs=* Paste lua require'nvim-paste'.paste([[<args>]])
-command! -nargs=* Pastebuf lua require'nvim-paste'.pastebuf()
-command! -nargs=* Pastesel lua require'nvim-paste'.pastesel()
-command! -nargs=* Pasteyank lua require'nvim-paste'.pasteyank()
+command! -nargs=? Paste lua require'nvim-paste'.paste(<f-args>)
+command! -nargs=0 Pastebuf lua require'nvim-paste'.pastebuf()
+command! -nargs=0 Pastesel lua require'nvim-paste'.pastesel()
+command! -nargs=0 Pasteyank lua require'nvim-paste'.pasteyank()
 
