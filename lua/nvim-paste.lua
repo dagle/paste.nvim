@@ -37,7 +37,7 @@ local function get_visual_selection()
 		lines[#lines] =
 			lines[#lines]:sub(region[finish[1]][1] + 1, region[finish[1]][2])
 	end
-	return table.concat(lines)
+	return table.concat(lines, '\n')
 end
 
 local M = {}
