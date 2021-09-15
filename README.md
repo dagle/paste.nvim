@@ -29,10 +29,10 @@ paste exposes these 5 lua functions:
 
 pastesel needs to be bind to something or you can't invoke it without leaving visual:
 ```vim
-vnoremap <C-p> <cmd>lua pastesel()<CR>
+vnoremap <C-p> <cmd>lua require'nvim-paste'.pastesel()<CR>
 ```
 
 ## Todo
-- [ ] Get the visual mode 
+- [ ] Get the visual mode
 - [ ] Add more pastebins
 - [ ] Tidy up the code
