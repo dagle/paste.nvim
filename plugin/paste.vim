@@ -12,4 +12,5 @@ command! -nargs=? Paste lua require'nvim-paste'.paste(<f-args>)
 command! -nargs=0 Pastebuf lua require'nvim-paste'.pastebuf()
 command! -nargs=0 Pastesel lua require'nvim-paste'.pastesel()
 command! -nargs=0 Pasteyank lua require'nvim-paste'.pasteyank()
+command! -nargs=1 Getpaste lua require'nvim-paste'.getPaste(<f-args>)
 

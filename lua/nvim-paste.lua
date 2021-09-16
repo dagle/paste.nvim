@@ -1,6 +1,10 @@
 local curl = require("plenary.curl")
 local path = require("plenary.path")
 
+local floating_win = require'popfix.floating_win'
+
+local M = {}
+
 local function get_reg(char)
 	return vim.api.nvim_exec([[echo getreg(']]..char..[[')]], true)
 end
@@ -39,8 +43,6 @@ local function get_visual_selection()
 	end
 	return table.concat(lines, '\n')
 end
-
-local M = {}
 
 local default_config = {
 	host = "https://paste.rs",
@@ -95,17 +97,31 @@ function M.pasteyank()
 	})
 end
 
--- maybe have a callback function to this?
+
 function M.getPaste(url)
-	-- Get the raw data
-	-- (check if paste is <id>.<ext>)
+	local api = vim.api
+	-- make this async etc
+	-- use pure curl instead of the wrapper?
 	local ret = curl.get(url, {})
-	-- check the return value
-	-- maybe true/true?
-	local buf = vim.api.nvim_create_buf(true, false)
-	vim.api.nvim_buf_set_lines(buf, 0, -1, false, ret)
-	-- fill the buffer with the new data
-	-- add the buffer
+
+	local editorWidth = api.nvim_get_option('columns')
+	local editorHeight = api.nvim_get_option("lines")
+	local opts = {
+		height = math.ceil(editorHeight * 0.8 - 4),
+		width = math.ceil(editorWidth * 0.8),
+		border = true,
+		title = 'Paste',
+	}
+	opts.row = math.ceil((editorHeight - opts.height) /2 - 1)
+	opts.col = math.ceil((editorWidth - opts.width) /2)
+	local win_buf = floating_win.create_win(opts)
+	vim.api.nvim_buf_set_lines(win_buf.buf, 0, -1, false, vim.split(ret.body, '\n'))
+	api.nvim_buf_set_keymap(win_buf.buf, 'n', 'q', '<cmd>lua vim.api.nvim_win_close(' .. win_buf.win ..', true)<CR>', {noremap=true, silent=true})
+	api.nvim_buf_set_option(win_buf.buf, 'bufhidden', 'wipe')
+	api.nvim_win_set_option(win_buf.win, 'winhl', 'Normal:Normal')
+	api.nvim_win_set_option(win_buf.win, 'number', true)
+	api.nvim_set_current_win(win_buf.win)
+	return win_buf
 end
 
 return M
